@@ -40,6 +40,8 @@ logic integer Size{L}(Map* s) = s->size;
         KeyEquals{L}(Cell c,key_t key) = c.key == key;
     predicate
         KeyExists{L}(Map* s,key_t key) = \exists integer indice ; 0 <= indice <= Size(s) && KeyEquals(s->array[indice],key);
+    predicate
+        KeyExistsIn{L}(Map* s,int i,key_t key) = \exists integer indice ; 0 <= indice <= i <= Size(s) && KeyEquals(s->array[indice],key);
 */
 
 /*@
