@@ -50,13 +50,96 @@ ensures Empty(m);
 ensures Capacity(m) == capacity;
 ensures m->array == storage;
 */
+///
+/// initialise la map m
+/// 
 void init(Map* m , index_t capacity,Cell* storage );
 
-
+/*@
+requires m->capacity >= m->size;
+requires m->capacity > 0;
+requires m->capacity <= INT_MAX;
+requires \valid(m);
+requires \valid(m->array + (0 .. m->capacity-1));
+behavior full:
+    assumes Full(m);
+    assigns \nothing;
+    ensures m->size == \at(m->size,Pre);
+    ensures \result == 0;
+behavior exits:
+    assumes !Full(m) && KeyExists(m,new_cell.key);
+    assigns \nothing;
+    ensures \result == 0;
+behavior ok:
+    assumes !Full(m) && !KeyExists(m,new_cell.key);
+    assigns m->size , m->array[m->size];
+    ensures \result == 1;
+complete behaviors ;
+disjoint behaviors ;
+*/
+///
+/// Retourne 1 si la cellule a bien ete ajoutee dans la map m sinon retourne 0
+/// 
 _Bool add(Map* m, Cell new_cell);
 
+
+/*@
+requires \valid_read(m);
+requires m->size < INT_MAX;
+requires \valid_read(m->array + (0 .. m->size-1));
+assigns \nothing;
+
+behavior empty_array:
+    assumes m->size <= 0;
+    assigns \nothing;
+    ensures \result == NULL;
+behavior exist:
+    assumes m->size > 0;
+    assumes KeyExists(m, key);
+    assigns \nothing;
+    ensures KeyEquals(*\result,key);
+behavior not_exist:
+    assumes m->size > 0;
+    assumes !KeyExists(m, key);
+    assigns \nothing;
+    ensures \result == NULL;
+
+complete behaviors ;
+disjoint behaviors ;
+*/
+///
+/// Retourne la cellule correspondant à key dans la map m sinon retourne NULL
+/// 
 const Cell* get(Map* m, key_t key);
 
+/*@
+requires \valid_read(m);
+requires m->size < INT_MAX;
+requires \valid_read(m->array + (0 .. m->size-1));
+assigns \nothing;
+
+behavior empty_array:
+    assumes m->size <= 0;
+    assigns \nothing;
+    ensures \result == 0;
+behavior exist:
+    assumes m->size > 0;
+    assumes KeyExists(m, key);
+    assigns \nothing;
+    ensures \result == 1;
+behavior not_exist:
+    assumes m->size > 0;
+    assumes !KeyExists(m, key);
+    assigns \nothing;
+    ensures \result == 0;
+
+complete behaviors ;
+disjoint behaviors ;
+*/
+///
+/// Retourne 1 si la cle existe sinon 0
+/// 
+_Bool exists(Map* m, key_t key);
 
 
 
