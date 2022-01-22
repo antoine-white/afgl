@@ -31,13 +31,13 @@ logic integer Size{L}(Map* s) = s->size;
     predicate
         Empty{L}(Map* s) = Size(s) == 0;
     predicate
-        Full{L}(Map* s) = Size(s) == Capacity(s);
+        Full{L}(Map* s) = Size(s) >= Capacity(s);
     predicate
         KeyEquals{L}(Cell c,key_t key) = c.key == key;
     predicate
-        KeyExists{L}(Map* s,key_t key) = \exists integer indice ; 0 <= indice <= Size(s) && KeyEquals(s->array[indice],key);
+        KeyExists{L}(Map* s,key_t key) = \exists integer indice ; 0 <= indice < Size(s) && KeyEquals(s->array[indice],key);
     predicate
-        KeyExistsIn{L}(Map* s,int i,key_t key) = \exists integer indice ; 0 <= indice <= i <= Size(s) && KeyEquals(s->array[indice],key);
+        KeyExistsIn{L}(Map* s,int i,key_t key) = \exists integer indice ; 0 <= indice <= i < Size(s) && KeyEquals(s->array[indice],key);
 */
 
 /*@
@@ -53,27 +53,9 @@ ensures m->array == storage;
 void init(Map* m , index_t capacity,Cell* storage );
 
 
-/*@
-requires m->capacity >= m->size ;
-requires m->capacity <= INT_MAX;
-requires \valid(m);
-requires \valid(m->array + (0 .. m->capacity-1));
-behavior full:
-    assumes Full(m);
-    ensures m->size == \at(m->size,Pre);
-    ensures \result == 0;
-behavior exits:
-    assumes !Full(m) && KeyExists(m,new_cell.key);
-    ensures \result == 0;
-behavior ok:
-    assumes !Full(m) && !KeyExists(m,new_cell.key);
-    assigns m->size , m->array[m->size];
-    ensures \result == 1;
-complete behaviors ;
-disjoint behaviors ;
-*/
 _Bool add(Map* m, Cell new_cell);
-_Bool get(Map* m, key_t key,val_t *val);
+
+const Cell* get(Map* m, key_t key);
 
 
 

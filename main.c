@@ -2,7 +2,7 @@
 
 int main(int argc, char const *argv[])
 {
-    index_t capacity = 20u;
+    /*index_t capacity = 20u;
     Map *m = (Map *) malloc(sizeof(Map));
     Cell* arr = (Cell *) malloc(sizeof(Cell) * capacity);
     init(m,capacity,arr);
@@ -14,6 +14,6 @@ int main(int argc, char const *argv[])
     int* rt = malloc(sizeof(int));
     b= get(m,1,rt);
     printf("%d => %d\n",b,*rt);
-
+*/
     return 0;
 }
