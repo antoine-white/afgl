@@ -2,10 +2,6 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-
-
-
-
 typedef int key_t;
 typedef int val_t;
 typedef unsigned long int index_t;
@@ -45,15 +41,16 @@ logic integer Size{L}(Map* s) = s->size;
 */
 
 /*@
-requires  0 < capacity;
+requires \valid(m);
+requires capacity > 0;
+requires \valid(storage+ (0 .. capacity-1));
+requires \separated(m, storage + (0..capacity-1));
+assigns m->size,m->array,m->capacity;
+ensures Empty(m);
+ensures Capacity(m) == capacity;
+ensures m->array == storage;
 */
-//assigns s->obj, s->capacity, s->size;
-//ensures valid: \valid(\return);
-//ensures capacity: Capacity(\return) == capacity;
-//ensures invariant: Invariant(\return);
-// ensures empty: Empty(\return);
-
-Map* init(index_t capacity);
+void init(Map* m , index_t capacity,Cell* storage );
 
 
 /*@

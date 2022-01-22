@@ -1,13 +1,13 @@
 #include "map.h"
 
-Map* init(index_t capacity)
-{
-    Map *m = (Map *) malloc(sizeof(Map));
+
+void init(Map* m , index_t capacity,Cell* storage )
+{    
     m->capacity = capacity;
     m->size = 0;
-    m->array = (Cell *) malloc(sizeof(Cell) * capacity);
-    return m;
+    m->array = storage;
 }
+
 /*@
 requires m->capacity >= m->size ;
 requires m->capacity <= INT_MAX;

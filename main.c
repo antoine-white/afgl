@@ -2,7 +2,10 @@
 
 int main(int argc, char const *argv[])
 {
-    Map* m = init(10);
+    index_t capacity = 20u;
+    Map *m = (Map *) malloc(sizeof(Map));
+    Cell* arr = (Cell *) malloc(sizeof(Cell) * capacity);
+    init(m,capacity,arr);
     Cell c = {.key = 1,.value = 121};
     _Bool b = add(m,c);
     printf("%d\n",b);
